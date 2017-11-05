@@ -202,7 +202,7 @@ AAPL['Adj Close'].plot(legend=True, figsize=(10,4))
 
 
 
-![png](output_7_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_7_1.png?raw=true)
 
 
 
@@ -219,7 +219,7 @@ AAPL['Volume'].plot(legend=True,figsize=(12,4))
 
 
 
-![png](output_8_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_8_1.png?raw=true)
 
 
 
@@ -247,7 +247,7 @@ AAPL[['Adj Close','MA for 5 days','MA for 10 days','MA for 15 days','MA for 20 d
 
 
 
-![png](output_10_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_10_1.png?raw=true)
 
 
 ## Daily Return Analysis
@@ -270,7 +270,7 @@ AAPL['Daily Return'].plot(figsize=(16,4),legend=True,linestyle='--',marker='o')
 
 
 
-![png](output_12_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_12_1.png?raw=true)
 
 
 
@@ -287,7 +287,7 @@ sns.distplot(AAPL['Daily Return'].dropna(),bins=100,color='purple')
 
 
 
-![png](output_13_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_13_1.png?raw=true)
 
 
 
@@ -304,7 +304,7 @@ AAPL['Daily Return'].hist()
 
 
 
-![png](output_14_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_14_1.png?raw=true)
 
 
 
@@ -413,7 +413,7 @@ sns.jointplot('GOOG','GOOG',techReturns_dataFrame,kind='scatter',color='cyan')
 
 
 
-![png](output_18_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_18_1.png?raw=true)
 
 
 
@@ -431,7 +431,7 @@ sns.jointplot('GOOG','MSFT',techReturns_dataFrame,kind='scatter')
 
 
 
-![png](output_19_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_19_1.png?raw=true)
 
 
 From what is presented above, there seem to be some sort of correlation forming
@@ -446,7 +446,7 @@ SVG(url='http://upload.wikimedia.org/wikipedia/commons/d/d4/Correlation_examples
 
 
 
-![svg](output_21_0.svg)
+![svg](https://i.gyazo.com/962eccac8e3b1f398eaadcc6852d2e18.png)
 
 
 
@@ -464,7 +464,7 @@ sns.pairplot(techReturns_dataFrame.dropna())
 
 
 
-![png](output_22_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_22_1.png?raw=true)
 
 
 ### Above are all the daily returns between on stocks (correlation) 
@@ -487,7 +487,7 @@ fig.map_diag(plt.hist,bins=20)
 
 
 
-![png](output_24_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_24_1.png?raw=true)
 
 
 
@@ -508,7 +508,7 @@ fig.map_diag(plt.hist,bins=20)
 
 
 
-![png](output_25_1.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_25_1.png?raw=true)
 
 
 ## Risk Analysis 
@@ -541,5 +541,5 @@ for label, x, y in zip(returns.columns, returns.mean(), returns.std()):
 ```
 
 
-![png](output_28_0.png)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_28_1.png?raw=true)
 
