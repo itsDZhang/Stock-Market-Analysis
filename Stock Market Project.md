@@ -541,5 +541,5 @@ for label, x, y in zip(returns.columns, returns.mean(), returns.std()):
 ```
 
 
-![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_28_1.png?raw=true)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_28_0.png?raw=true)
 
