@@ -513,3 +513,270 @@ for label, x, y in zip(returns.columns, returns.mean(), returns.std()):
 
 ![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_28_0.png?raw=true)
 
+
+
+## Value at Risk 
+
+#### Using bootstrap method 
+
+Calculate the empirical quantiles from a histogram of daily returns. 
+Quantiles information http://en.wikipedia.org/wiki/Quantile
+
+
+```python
+#Repeating the daily returns for histogram for Apple Stock
+#.displot = distribution plot 
+sns.distplot(AAPL['Daily Return'].dropna(),bins=100,color='purple')
+```
+
+
+
+
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a16bb95d0>
+
+
+
+
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_30_1.png?raw=true)
+
+
+
+```python
+#0.05 empirical quantiles of daily returns 
+returns['AAPL'].quantile(0.05)
+```
+
+
+
+
+    -0.01729882171950793
+
+
+
+This is very interesting to see. 
+With 0.05 empirical quantiles, the daily returns is -0.017. 
+The definition of this is that with 95% confidence, the worst daily loss will not surpass 1.7%. 
+If I had \$10 000, my one day VaR (Value at Risk) would be $170
+
+## Value at Risk using the Monte Carlo Method 
+
+Brief Overview: Using the Monte Carlo Method to run many trials with random market conditions and therefore calculate losses/gains for each trial. Then using aggregation to from the trials to establish the risk of a certain stock. 
+
+The Stock Market will follow a random walk (Markov process) and is following the weak form of EMH (Efficient Market Hypothesis)
+The weak form of EMH states that the next price movement is conditionally dependent on past price movements given that the past prices have been incorporated. 
+
+This means that the exact price cannot be predicted perfectly solely based on past stocks information
+
+EMH: https://en.wikipedia.org/wiki/Efficient-market_hypothesis
+
+Makov Process: https://en.wikipedia.org/wiki/Markov_chain 
+(A stochastic process that satisfies the Markov property if one can make predictions for the future of the process based solely on its present state just as well as one could knowing the process's full history)
+
+
+Geometric Browninan Motion equation: (Markov Process)
+### ΔS/S = μΔt+σϵ√Δt
+In this equation s = stock price, μ = expected return, σ = standard deviation of returns, t = time, ϵ = random variable
+
+Therefore multiplying the stock price by both sides, the equation is equal to:
+
+### ΔS=S(μΔt+σϵ√Δt)
+
+μΔt is known as the "drift" where average daily returns are multiplied by the change in time. σϵ√Δt is known as the "shock" and the shock is where it'll push the stocks either up or down. By doing drift and shock thousand of times, a simulation can occur to where a stock price might be. 
+Techniques were summarized from here: http://www.investopedia.com/articles/07/montecarlo.asp
+
+
+```python
+#Setting up the year: 
+days = 365
+
+#Setting dt
+dt = 1/365
+
+#Finding the dift of Google's dataframe 
+mu = returns.mean()['GOOG']
+
+#Calculating the volatility 
+sigma = returns.std()['GOOG']
+```
+
+
+```python
+'''
+The following function takes in starting stock prices, 
+days of simulations, mu, and sigma. 
+It returns a simulated price array 
+'''
+
+def stock_monte_carlo(start_price, days, mu, sigma):
+    
+    price = np.zeros(days)
+    price[0] = start_price
+    shock = np.zeros(days)
+    drift = np.zeros(days)
+    
+    for x in xrange(1,365):
+        #calculating the shock (σϵ√Δt )
+        shock[x] = np.random.normal(loc=mu*dt,scale = sigma*np.sqrt(dt))
+        #calculate Drift
+        drift[x] = mu * dt 
+        #calculate Price
+        price[x] = price[x-1] + (price[x-1] * (drift[x] + shock[x]))
+        
+    return price 
+```
+
+
+```python
+GOOG.head()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Adj Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2016-11-07</th>
+      <td>774.500000</td>
+      <td>785.190002</td>
+      <td>772.549988</td>
+      <td>782.520020</td>
+      <td>782.520020</td>
+      <td>1585100</td>
+    </tr>
+    <tr>
+      <th>2016-11-08</th>
+      <td>783.400024</td>
+      <td>795.632996</td>
+      <td>780.190002</td>
+      <td>790.510010</td>
+      <td>790.510010</td>
+      <td>1350800</td>
+    </tr>
+    <tr>
+      <th>2016-11-09</th>
+      <td>779.940002</td>
+      <td>791.226990</td>
+      <td>771.669983</td>
+      <td>785.309998</td>
+      <td>785.309998</td>
+      <td>2607100</td>
+    </tr>
+    <tr>
+      <th>2016-11-10</th>
+      <td>791.169983</td>
+      <td>791.169983</td>
+      <td>752.179993</td>
+      <td>762.559998</td>
+      <td>762.559998</td>
+      <td>4745200</td>
+    </tr>
+    <tr>
+      <th>2016-11-11</th>
+      <td>756.539978</td>
+      <td>760.780029</td>
+      <td>750.380005</td>
+      <td>754.020020</td>
+      <td>754.020020</td>
+      <td>2431800</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+#Starting price
+start_price = 774.50
+
+for i in xrange(365):
+    plt.plot(stock_monte_carlo(start_price, days, mu, sigma))
+
+plt.xlabel("Days")
+plt.ylabel("Price")
+plt.title("Monte Carlo Analysis for Google")
+```
+
+
+
+
+    Text(0.5,1,u'Monte Carlo Analysis for Google')
+
+
+
+
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_38_1.png?raw=true)
+
+
+
+```python
+#Going to plot the above on a histogram for better visualization 
+
+#Going to run this simulation 10000 times now
+runs = 10000
+simulations = np.zeros(runs)
+np.set_printoptions(threshold = 4) #Or else the output would be far too long to read
+for i in xrange(runs):
+    #returning [days-1] because we're extracting the end date
+    simulations[i] = stock_monte_carlo(start_price, days, mu, sigma)[days-1]; 
+```
+
+
+```python
+# q as the 1% empirical qunatile therefore 99% of the values should fall between here
+q = np.percentile(simulations, 1)
+    
+# Plotting the distribution of the end prices
+plt.hist(simulations,bins=200)
+
+# Using plt.figtext to fill in some additional information onto the plot
+
+# Starting Price
+plt.figtext(0.6, 0.8, s="Start price: $%.2f" %start_price)
+# Mean ending price
+plt.figtext(0.6, 0.7, "Mean final price: $%.2f" % simulations.mean())
+
+# Variance of the price (within 99% confidence interval)
+plt.figtext(0.7, 0.6, "VaR(0.99): $%.2f" % (start_price - q,))
+
+# Display 1% quantile
+plt.figtext(0.15, 0.6, "q(0.99): $%.2f" % q)
+
+# Plot a line at the 1% quantile result
+plt.axvline(x=q, linewidth=4, color='r')
+
+# Title
+plt.title("Final price distribution for Google Stock after %s days" % days, weight='bold');
+```
+
+
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_40_1.png?raw=true)
+
+
+From above, the Value at Risk seems to be \$19.50 for every \$774.50 invested. <br> If a user was putting \$774.50 as an initial investment, it means he's putting \$19.50 at risk. 
+
+
