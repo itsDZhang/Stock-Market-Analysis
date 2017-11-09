@@ -774,7 +774,7 @@ plt.title("Final price distribution for Google Stock after %s days" % days, weig
 ```
 
 
-![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_40_1.png?raw=true)
+![png](https://github.com/DZcoderX/Stock-Market-Analysis/blob/master/Graphs/output_40_0.png?raw=true)
 
 
 From above, the Value at Risk seems to be \$19.50 for every \$774.50 invested. <br> If a user was putting \$774.50 as an initial investment, it means he's putting \$19.50 at risk. 
