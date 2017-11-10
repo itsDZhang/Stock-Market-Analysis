@@ -1,7 +1,7 @@
 
 # Stock Market Analysis
 
-Using pandas to get stock information, visualize different aspects of it, and analyze the risk of a stock from previous performance history. Then predicting using Monte Carlo Method
+Using pandas to get stock information, visualize different aspects of it, and analyze the risk of a stock from previous performance history. 
 
 Info that would be visualized 
 
@@ -12,7 +12,8 @@ Info that would be visualized
 5. Correlation between different stocks' daily returns
 6. Value that should be put at risk when investing a certain stock
 7. How to predict future stock behaviour 
-
+8. Bootstrap Method
+9. Monte Carlo Method
 
 ```python
 import pandas as pd
