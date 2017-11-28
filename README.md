@@ -1,7 +1,7 @@
 
 # Stock Market Analysis
 
-Using pandas to get stock information, visualize different aspects of it, and analyze the risk of a stock from previous performance history. 
+Using pandas, numpy, seaborn, and matplotlib to get stock information, visualize different aspects of it, and analyze the risk of a stock from previous performance history. 
 
 Info that would be visualized 
 
